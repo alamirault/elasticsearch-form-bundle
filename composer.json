@@ -1,5 +1,9 @@
 {
   "name": "alamirault/elasticsearch-form-bundle",
+  "type": "symfony-bundle",
+  "keywords": ["Symfony", "bundle", "form", "filter", "elasticsearch", "elastica"],
+  "homepage": "https://github.com/alamirault/elasticsearch-form-bundle",
+  "license": "MIT",
   "description": "Post document, search, form listener",
   "authors": [
     {

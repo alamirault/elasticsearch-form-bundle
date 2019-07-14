@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.com/alamirault/elasticsearch-form-bundle.svg?token=asaWxyRVYo9KqM3Qcx8Q&branch=master)](https://travis-ci.com/alamirault/elasticsearch-form-bundle)
+
+
 Overview
 =============
 This Symfony bundle allows to create Form and transform fields to an elasticsearch query. 
