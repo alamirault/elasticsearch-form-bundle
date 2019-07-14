@@ -1,0 +1,21 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Alamirault\ElasticsearchBundle\:
+        resource: '../../*'
+        exclude: '../../{Tests,vendor}'
+
+    Alamirault\ElasticsearchBundle\Form\Extension\ElasticConditionTypeExtension:
+        tags:
+            - { name: "form.type_extension", extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
+    Alamirault\ElasticsearchBundle\DataCollector\RequestCollector:
+        tags:
+            - name:     data_collector
+              template: '@AlamiraultElasticsearch/Collector/request.html.twig'
+                # must match the value returned by the getName() method
+              id:       'app.elasticsearch_request_collector'
+        public: false

@@ -1,0 +1,85 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        <span>
+            <span class="icon">{{ include('@AlamiraultElasticsearch/Collector/icon.svg.twig', {colors: {light: '#DDD', dark: '#999'}}) }}</span>
+           <span class="sf-toolbar-value">{{ collector.requestCount }}</span>
+        </span>
+    {% endset %}
+
+
+    {% set text %}
+
+        {% set status_color = collector.erroredCount > 0 ? 'red' : 'normal' %}
+        <div class="sf-toolbar-info-piece">
+            <b>Requests</b>
+            <span class="sf-toolbar-status">{{ collector.requestCount }}</span>
+        </div>
+    {% endset %}
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: profiler_url, status: status_color }) }}
+{% endblock %}
+
+
+{% block menu %}
+    <span class="label {{ collector.requestCount == 0 ? 'disabled' }} {{ 0 != collector.erroredCount ? 'label-status-error' }}">
+            <span class="icon">{{ include('@AlamiraultElasticsearch/Collector/icon.svg.twig', {colors: {light: '#DDD', dark: '#999'}}) }}</span>
+            <strong>Elasticsearch</strong>
+            <span class="count">
+                <span>{{ collector.requestCount }}</span>
+            </span>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>Requests Elasticsearch</h2>
+
+    {% if collector.requestCount == 0 %}
+        <div class="empty">
+            <p>No Elasticsearch request was executed.</p>
+        </div>
+    {% else %}
+        <div class="metrics">
+            <div class="metric">
+                <span class="value">{{ collector.requestCount }}</span>
+                <span class="label">Number</span>
+            </div>
+        </div>
+
+        <table class="alt">
+            <thead>
+            <tr>
+                <th class="nowrap">#</th>
+                <th class="nowrap">Time</th>
+                <th class="nowrap">Method</th>
+                <th class="nowrap">Http rep code</th>
+                <th class="nowrap">URL</th>
+            </thead>
+            <tbody>
+            {% for request in collector.requests %}
+                <tr {{ collector.isError(request.statusCode) ? 'class="status-error"' }}>
+                    <td>{{ loop.index }}</td>
+                    <td class="nowrap">{{ request.duration }} ms</td>
+                    <td class="font-normal">{{ request.method }}</td>
+                    <td class="font-normal">{{ request.statusCode }}</td>
+                    <td class="font-normal">
+                        {{ request.route }}
+                        <div>
+                            <strong class="text-small font-normal">Request</strong>
+                            <pre>
+                                 {{ request.data }}
+                            </pre>
+                        </div>
+                        <div>
+                            <strong class="text-small font-normal">Response</strong>
+                            <pre>
+                                {{ request.response }}
+                            </pre>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
